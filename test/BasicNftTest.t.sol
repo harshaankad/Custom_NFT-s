@@ -22,13 +22,15 @@ contract BasicNftTest is StdCheats, Test {
     function setUp() public {
         deployer = new DeployBasicNft();
         basicNft = deployer.run();
-    }
+    }//this function runs first
 
     function testInitializedCorrectly() public view {
         assert(
             keccak256(abi.encodePacked(basicNft.name())) ==
                 keccak256(abi.encodePacked((NFT_NAME)))
-        );
+        );//assert(string==string) doesnt work in solidity as strings are complex data types
+        //but bytes can be compared 
+        //abi.encodePacked converts strings to bytes and keccak256 hashes it and then finally the hashes are compared
         assert(
             keccak256(abi.encodePacked(basicNft.symbol())) ==
                 keccak256(abi.encodePacked((NFT_SYMBOL)))
@@ -39,7 +41,7 @@ contract BasicNftTest is StdCheats, Test {
         vm.prank(USER);
         basicNft.mintNft(PUG_URI);
 
-        assert(basicNft.balanceOf(USER) == 1);
+        assert(basicNft.balanceOf(USER) == 1);//.mintNft mints the NFT and funds it with 1 ETH
     }
 
     function testTokenURIIsCorrect() public {

@@ -15,7 +15,7 @@ contract DeployBasicNft is Script {
         } else {
             deployerKey = vm.envUint("PRIVATE_KEY");
         }
-        vm.startBroadcast(deployerKey);
+        vm.startBroadcast(deployerKey);//Deployer key is basically the private key of the blockchain network we are deploying on
         BasicNft basicNft = new BasicNft();
         vm.stopBroadcast();
         return basicNft;

@@ -36,7 +36,7 @@ contract MoodNft is ERC721, Ownable {
     }
 
     uint256 private s_tokenCounter;
-    string private s_sadSvgUri;
+    string private s_sadSvgUri;//It is string because we convert the svg type into uri type
     string private s_happySvgUri;
 
     mapping(uint256 => NFTState) private s_tokenIdToState;
@@ -58,7 +58,7 @@ contract MoodNft is ERC721, Ownable {
     }
 
     function flipMood(uint256 tokenId) public {
-        if (getApproved(tokenId) != msg.sender && ownerOf(tokenId) != msg.sender) {
+        if (getApproved(tokenId) != msg.sender && ownerOf(tokenId) != msg.sender) {//these functions r there in ERC721.sol,tells that owner or someone approved by the owner can only execute further
             revert MoodNft__CantFlipMoodIfNotOwner();
         }
 
@@ -83,9 +83,9 @@ contract MoodNft is ERC721, Ownable {
             imageURI = s_sadSvgUri;
         }
         return string(
-            abi.encodePacked(
-                _baseURI(),
-                Base64.encode(
+            abi.encodePacked(//abi.encodePacked concatnates the binary data to minimise memory usage
+                _baseURI(),//function called
+                Base64.encode(//converting this json metadata sort of format to base64
                     bytes( // bytes casting actually unnecessary as 'abi.encodePacked()' returns a bytes
                         abi.encodePacked(
                             '{"name":"',
@@ -113,3 +113,7 @@ contract MoodNft is ERC721, Ownable {
         return s_tokenCounter;
     }
 }
+
+//we can convert svg into uri and then pass the uri
+//See deploy at 9:31
+//abi.encode returns bytes format of input
